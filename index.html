@@ -146,6 +146,7 @@
         <div class="answer-row">
           <input id="answer" class="input" type="text" inputmode="numeric" pattern="[0-9-]*" autocomplete="off" placeholder="Your answer" disabled aria-label="Your answer" />
           <button id="submit" class="btn" disabled>Submit</button>
+          <button id="next" class="btn ghost" style="display:none">Next</button>
         </div>
         <div id="feedback" class="feedback" aria-live="polite"></div>
       </section>
@@ -243,6 +244,8 @@
       input.classList.remove('glow-ok','glow-bad','shake','pulse');
       $('#questionWrap').classList.remove('shake','pulse');
       setFeedback(true, '');
+      $('#next').style.display = 'none';
+      $('#submit').disabled = false;
       updateStats();
     }
 
@@ -262,7 +265,7 @@
     function endGame(){
       state.ended = true;
       lockControls(false);
-      $('#submit').disabled = true; $('#answer').disabled = true;
+      $('#submit').disabled = true; $('#answer').disabled = true; $('#next').style.display='none';
       state.elapsed = Math.round((performance.now() - state.startTime)/1000);
       const key = bestKey(); const best = Number(localStorage.getItem(key)||0); if(state.score > best){ localStorage.setItem(key, String(state.score)); }
       updateStats();
@@ -291,12 +294,8 @@
       const C = ensureAudio(); const t = C.currentTime; const o = C.createOscillator(); const g = C.createGain();
       o.type = type; o.frequency.value = freq; g.gain.value = gain; o.connect(g).connect(C.destination); o.start(t); o.stop(t+dur);
     }
-    function playCorrect(){ if(!$('#sfx').checked) return; // small up-chirp
-      beep({freq:620,type:'sine',dur:0.08,gain:0.05}); setTimeout(()=>beep({freq:840,type:'sine',dur:0.10,gain:0.06}),70);
-    }
-    function playWrong(){ if(!$('#sfx').checked) return; // quick buzzer
-      beep({freq:220,type:'square',dur:0.08,gain:0.06}); setTimeout(()=>beep({freq:180,type:'square',dur:0.10,gain:0.05}),70);
-    }
+    function playCorrect(){ if(!$('#sfx').checked) return; beep({freq:620,type:'sine',dur:0.08,gain:0.05}); setTimeout(()=>beep({freq:840,type:'sine',dur:0.10,gain:0.06}),70); }
+    function playWrong(){ if(!$('#sfx').checked) return; beep({freq:220,type:'square',dur:0.08,gain:0.06}); setTimeout(()=>beep({freq:180,type:'square',dur:0.10,gain:0.05}),70); }
 
     function submit(){
       if(state.ended) return;
@@ -311,23 +310,35 @@
         $('#answer').classList.remove('glow-bad'); $('#answer').classList.add('glow-ok'); $('#questionWrap').classList.add('pulse'); setTimeout(()=>{ $('#questionWrap').classList.remove('pulse'); }, 480);
       } else {
         state.streak=0; setFeedback(false, `Wrong → ${state.current.txt} = ${state.current.ans}`); playWrong();
-        $('#answer').classList.remove('glow-ok'); $('#answer').classList.add('glow-bad'); $('#questionWrap').classList.add('shake'); setTimeout(()=>{ $('#questionWrap').classList.remove('shake'); }, 500);
+        $('#answer').classList.remove('glow-ok'); $('#answer').classList.add('glow-bad'); $('#questionWrap').classList.add('shake'); setTimeout(()=>{ $('#questionWrap').classList.remove('shake'); }, 600);
         state.mistakes.push({ ...state.current, your: raw });
       }
+
+      // Lock input and show Next so user controls the pace
+      $('#submit').disabled = true; $('#answer').disabled = true; $('#next').style.display = 'inline-block';
       state.index++; updateStats();
-      if(state.index >= state.config.total){ endGame(); }
-      else { setTimeout(next, 350); }
+      if(state.index >= state.config.total){ // last question: change Next -> Finish
+        $('#next').textContent = 'Finish';
+      } else {
+        $('#next').textContent = 'Next';
+      }
     }
 
-    function next(){ showQuestion(); }
+    function next(){
+      if(state.index >= state.config.total){ endGame(); return; }
+      $('#answer').disabled = false; $('#submit').disabled = false; $('#next').style.display = 'none';
+      showQuestion();
+    }
 
     // Events
     $('#start').addEventListener('click', startGame);
     $('#reset').addEventListener('click', ()=>{
-      state.ended = true; lockControls(false); $('#qText').textContent = 'Press Start to begin'; $('#feedback').textContent=''; $('#bar').style.width='0%'; $('#statQ').textContent='–/–'; $('#statScore').textContent='0'; $('#statStreak').textContent='0'; $('#summary').style.display='none'; $('#answer').value='';
+      state.ended = true; lockControls(false); $('#qText').textContent = 'Press Start to begin'; $('#feedback').textContent=''; $('#bar').style.width='0%'; $('#statQ').textContent='–/–'; $('#statScore').textContent='0'; $('#statStreak').textContent='0'; $('#summary').style.display='none'; $('#answer').value=''; $('#next').style.display='none';
     });
     $('#submit').addEventListener('click', submit);
-    $('#answer').addEventListener('keydown', (e)=>{ if(e.key==='Enter') submit(); });
+    $('#next').addEventListener('click', next);
+    $('#again').addEventListener('click', startGame);
+    $('#answer').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ if(!$('#submit').disabled) submit(); else if($('#next').style.display!=='none') next(); }});
 
     // Initialize best score display
     updateStats();
