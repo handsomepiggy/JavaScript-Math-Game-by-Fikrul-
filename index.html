@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Quick Math! – JS Quiz Game</title>
-  <meta name="description" content="A lightweight JavaScript math quiz game with score, progress, and difficulty settings." />
+  <meta name="description" content="A lightweight JavaScript math quiz game with score, progress, difficulty settings, SFX, and optional BGM." />
   <style>
     :root{
       --bg: #0f1226; /* deep indigo */
@@ -45,8 +45,8 @@
     .btn[disabled]{ opacity:.6; cursor:not-allowed; }
     .ghost{ background:#12153a; border-color:#2b3172; }
 
-    .sfx-toggle{ display:flex; align-items:center; gap:8px; padding:8px 10px; background:#0f1338; border:1px solid #2b3172; border-radius:12px; font-size:13px; color:var(--muted); }
-    .sfx-toggle input{ width:36px; height:20px; accent-color: var(--accent); }
+    .toggle{ display:flex; align-items:center; gap:8px; padding:8px 10px; background:#0f1338; border:1px solid #2b3172; border-radius:12px; font-size:13px; color:var(--muted); }
+    .toggle input[type="checkbox"]{ width:36px; height:20px; accent-color: var(--accent); }
 
     main{ padding:26px 22px 24px; }
 
@@ -120,9 +120,13 @@
           <option>15</option>
           <option>20</option>
         </select>
-        <label class="sfx-toggle" title="Sound effects">
+        <label class="toggle" title="Sound effects">
           <input type="checkbox" id="sfx" checked>
-          <span>Sound</span>
+          <span>SFX</span>
+        </label>
+        <label class="toggle" title="Background music">
+          <input type="checkbox" id="bgmToggle">
+          <span>BGM</span>
         </label>
         <button id="start" class="btn">Start</button>
         <button id="reset" class="btn ghost" disabled>Reset</button>
@@ -174,6 +178,9 @@
     </footer>
   </div>
 
+  <!-- Background music element. Place a file named bgm.mp3 in the repo root, or change the src path below. -->
+  <audio id="bgm" loop preload="auto" src="bgm.mp3"></audio>
+
   <script>
     // Utility helpers
     const $ = (q) => document.querySelector(q);
@@ -190,6 +197,7 @@
       ended: false,
       mistakes: [],
       audioCtx: null,
+      started: false,
     };
 
     // Difficulty ranges
@@ -253,12 +261,34 @@
       $('#op').disabled = lock; $('#level').disabled = lock; $('#total').disabled = lock; $('#start').disabled = lock; $('#reset').disabled = !lock; $('#submit').disabled = !lock; $('#answer').disabled = !lock;
     }
 
+    // --- BGM helpers ---
+    const bgmEl = $('#bgm');
+    function fadeTo(audio, target=0.4, ms=600, done){
+      const steps = 20; const stepTime = ms/steps; const diff = target - audio.volume; let n = 0;
+      const id = setInterval(()=>{ n++; audio.volume = Math.max(0, Math.min(1, audio.volume + diff/steps)); if(n>=steps){ clearInterval(id); if(done) done(); } }, stepTime);
+    }
+    function playBGM(){
+      if(!$('#bgmToggle').checked) return;
+      try{
+        bgmEl.volume = 0.0;
+        const p = bgmEl.play();
+        if(p && typeof p.then==='function'){
+          p.then(()=>fadeTo(bgmEl, 0.35, 700)).catch(()=>{});
+        }
+      }catch(e){ /* autoplay may be blocked until user clicks; Start is a user action so it's fine */ }
+    }
+    function stopBGM(){
+      if(bgmEl.paused) return;
+      fadeTo(bgmEl, 0.0, 400, ()=>{ bgmEl.pause(); bgmEl.currentTime = 0; });
+    }
+
     function startGame(){
       state.config = { op: $('#op').value, level: $('#level').value, total: Number($('#total').value) };
-      state.index = 0; state.score=0; state.streak=0; state.mistakes=[]; state.ended=false;
+      state.index = 0; state.score=0; state.streak=0; state.mistakes=[]; state.ended=false; state.started=true;
       state.startTime = performance.now();
       $('#summary').style.display='none';
       lockControls(true);
+      playBGM();
       next();
     }
 
@@ -283,6 +313,7 @@
         div.innerHTML = `<div class="label" style="margin-bottom:6px;color:var(--muted)">Review mistakes:</div>` + state.mistakes.map(m=>`<div class="pill" style="margin-top:6px">${m.txt} = <strong>${m.ans}</strong> (you: ${m.your})</div>`).join('');
         document.getElementById('summary').appendChild(div);
       }
+      stopBGM();
     }
 
     function labelOf(level){ return level==='easy'?'Easy': level==='med'? 'Medium': 'Hard'; }
@@ -333,12 +364,18 @@
     // Events
     $('#start').addEventListener('click', startGame);
     $('#reset').addEventListener('click', ()=>{
-      state.ended = true; lockControls(false); $('#qText').textContent = 'Press Start to begin'; $('#feedback').textContent=''; $('#bar').style.width='0%'; $('#statQ').textContent='–/–'; $('#statScore').textContent='0'; $('#statStreak').textContent='0'; $('#summary').style.display='none'; $('#answer').value=''; $('#next').style.display='none';
+      state.ended = true; state.started=false; lockControls(false); $('#qText').textContent = 'Press Start to begin'; $('#feedback').textContent=''; $('#bar').style.width='0%'; $('#statQ').textContent='–/–'; $('#statScore').textContent='0'; $('#statStreak').textContent='0'; $('#summary').style.display='none'; $('#answer').value=''; $('#next').style.display='none'; stopBGM();
     });
     $('#submit').addEventListener('click', submit);
     $('#next').addEventListener('click', next);
     $('#again').addEventListener('click', startGame);
     $('#answer').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ if(!$('#submit').disabled) submit(); else if($('#next').style.display!=='none') next(); }});
+
+    // Toggle BGM while game is running
+    $('#bgmToggle').addEventListener('change', ()=>{
+      if(!state.started) return; // only react during a game
+      if($('#bgmToggle').checked) playBGM(); else stopBGM();
+    });
 
     // Initialize best score display
     updateStats();
