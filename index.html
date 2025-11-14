@@ -32,64 +32,38 @@
       padding:28px 16px;
     }
 
-    .card{
-      width:var(--card-w);
-      background:linear-gradient(180deg, #1a1e44 0%, #121533 100%);
-      border:1px solid #2b3172;
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    header{
-      padding:18px 22px;
-      display:flex; gap:14px; align-items:center; justify-content:space-between;
-      border-bottom:1px solid #2b3172;
-      background:linear-gradient(180deg, #1f2452 0%, #1a1e44 100%);
-    }
+    .card{ width:var(--card-w); background:linear-gradient(180deg, #1a1e44 0%, #121533 100%); border:1px solid #2b3172; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    header{ padding:18px 22px; display:flex; gap:14px; align-items:center; justify-content:space-between; border-bottom:1px solid #2b3172; background:linear-gradient(180deg, #1f2452 0%, #1a1e44 100%); }
     .brand{ display:flex; gap:12px; align-items:center; }
     .logo{ width:36px; height:36px; border-radius:10px; background: conic-gradient(from 220deg, var(--accent), var(--accent-2)); box-shadow:0 0 0 3px #ffffff10 inset; }
     .title{ font-size: clamp(18px, 2.4vw, 22px); font-weight:800; letter-spacing:.3px; }
 
     .controls{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
-    .select, .btn{
-      appearance:none;
-      border:1px solid #3640a3; background:#12153a; color:var(--text);
-      padding:10px 12px; border-radius:12px; font-weight:600; letter-spacing:.2px;
-    }
+    .select, .btn{ appearance:none; border:1px solid #3640a3; background:#12153a; color:var(--text); padding:10px 12px; border-radius:12px; font-weight:600; letter-spacing:.2px; }
     .select{ min-width:140px; }
     .btn{ background:linear-gradient(180deg, var(--accent) 0%, #4f6eff 100%); border-color:#6d8cff; cursor:pointer; }
     .btn[disabled]{ opacity:.6; cursor:not-allowed; }
     .ghost{ background:#12153a; border-color:#2b3172; }
 
+    .sfx-toggle{ display:flex; align-items:center; gap:8px; padding:8px 10px; background:#0f1338; border:1px solid #2b3172; border-radius:12px; font-size:13px; color:var(--muted); }
+    .sfx-toggle input{ width:36px; height:20px; accent-color: var(--accent); }
+
     main{ padding:26px 22px 24px; }
 
-    .stats{
-      display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:10px; margin-bottom:16px;
-    }
-    .stat{
-      background:#101338; border:1px solid #2b3172; border-radius:12px; padding:10px 12px;
-    }
+    .stats{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:10px; margin-bottom:16px; }
+    .stat{ background:#101338; border:1px solid #2b3172; border-radius:12px; padding:10px 12px; }
     .stat .label{ color:var(--muted); font-size:12px; letter-spacing:.2px; }
     .stat .value{ font-weight:800; font-size:18px; margin-top:4px; }
 
     .progress-wrap{ margin:12px 0 18px; }
-    .progress{
-      height:10px; background:#0e1130; border:1px solid #2b3172; border-radius:999px; overflow:hidden;
-    }
+    .progress{ height:10px; background:#0e1130; border:1px solid #2b3172; border-radius:999px; overflow:hidden; }
     .bar{ height:100%; width:0%; background:linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%); transition:width .25s ease; }
 
-    .question{
-      display:grid; gap:14px; place-items:center; text-align:center; padding:16px 10px 8px;
-    }
+    .question{ display:grid; gap:14px; place-items:center; text-align:center; padding:16px 10px 8px; }
     .q-text{ font-size: clamp(28px, 7vw, 56px); font-weight:900; letter-spacing:1px; text-shadow:0 2px 0 #0006; }
 
-    .answer-row{
-      display:flex; gap:10px; justify-content:center; align-items:center; margin:8px 0 4px; flex-wrap:wrap;
-    }
-    .input{
-      width:200px; max-width:70vw; padding:12px 14px; font-size:20px; text-align:center; font-weight:800; letter-spacing:.5px;
-      color:var(--text); background:#0d1030; border:2px solid #2b3172; border-radius:12px; outline:none;
-    }
+    .answer-row{ display:flex; gap:10px; justify-content:center; align-items:center; margin:8px 0 4px; flex-wrap:wrap; }
+    .input{ width:200px; max-width:70vw; padding:12px 14px; font-size:20px; text-align:center; font-weight:800; letter-spacing:.5px; color:var(--text); background:#0d1030; border:2px solid #2b3172; border-radius:12px; outline:none; }
     .input:focus{ border-color:#6d8cff; box-shadow:0 0 0 3px #6d8cff33; }
 
     .feedback{ min-height:28px; text-align:center; font-weight:800; margin-top:4px; }
@@ -100,9 +74,7 @@
 
     .divider{ height:1px; background:#2b3172; margin:18px 0; }
 
-    .summary{
-      display:none; padding:8px 4px 0; text-align:center;
-    }
+    .summary{ display:none; padding:8px 4px 0; text-align:center; }
     .summary h2{ margin:0 0 4px; font-size: clamp(20px, 3.2vw, 28px); }
     .summary p{ color:var(--muted); margin:4px 0 10px; }
     .grid-sm{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:10px; }
@@ -111,10 +83,15 @@
     footer{ padding:16px 22px 22px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
     footer a{ color:var(--text); text-decoration:underline; text-underline-offset:3px; }
 
-    @media (max-width:560px){
-      .stats{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .grid-sm{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-    }
+    @media (max-width:560px){ .stats{ grid-template-columns: repeat(2, minmax(0,1fr)); } .grid-sm{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+    /* --- Animations --- */
+    @keyframes pulseCorrect { 0%{ transform:scale(1); box-shadow:0 0 0 0 rgba(93,226,160,0.6)} 70%{ transform:scale(1.02); box-shadow:0 0 0 12px rgba(93,226,160,0)} 100%{ transform:scale(1); box-shadow:0 0 0 0 rgba(93,226,160,0)} }
+    @keyframes shakeWrong { 10%, 90% { transform: translateX(-1px); } 20%, 80% { transform: translateX(2px); } 30%, 50%, 70% { transform: translateX(-4px); } 40%, 60% { transform: translateX(4px); } }
+    .pulse { animation: pulseCorrect .45s ease; }
+    .shake { animation: shakeWrong .45s ease; }
+    .glow-ok { border-color: var(--accent-2) !important; box-shadow: 0 0 0 3px #5de2a033 !important; }
+    .glow-bad{ border-color: var(--danger) !important; box-shadow: 0 0 0 3px #ff5d7a33 !important; }
   </style>
 </head>
 <body>
@@ -143,6 +120,10 @@
           <option>15</option>
           <option>20</option>
         </select>
+        <label class="sfx-toggle" title="Sound effects">
+          <input type="checkbox" id="sfx" checked>
+          <span>Sound</span>
+        </label>
         <button id="start" class="btn">Start</button>
         <button id="reset" class="btn ghost" disabled>Reset</button>
       </div>
@@ -188,7 +169,7 @@
 
     <footer>
       <span>Built with vanilla JS • No libraries</span>
-      <span>Made for your assignment • You can host on GitHub Pages / Netlify / Vercel</span>
+      <span></span>
     </footer>
   </div>
 
@@ -206,7 +187,8 @@
       startTime: 0,
       elapsed: 0,
       ended: false,
-      mistakes: []
+      mistakes: [],
+      audioCtx: null,
     };
 
     // Difficulty ranges
@@ -216,28 +198,17 @@
       hard: { add:[0,100], sub:[0,100], mul:[0,15], div:[2,15] }
     };
 
-    function randInt(min, max){
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function pickOp(op){
-      if(op !== 'mixed') return op;
-      const bag = ['add','add','sub','mul','div']; // small weight to +/−
-      return bag[Math.floor(Math.random()*bag.length)];
-    }
+    function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function pickOp(op){ if(op !== 'mixed') return op; const bag = ['add','add','sub','mul','div']; return bag[Math.floor(Math.random()*bag.length)]; }
 
     function makeQuestion(){
       const op = pickOp(state.config.op);
       const r = ranges[state.config.level];
       let a,b,ans,txt;
-
-      if(op==='add'){
-        a = randInt(...r.add); b = randInt(...r.add); ans = a + b; txt = `${a} + ${b}`;
-      } else if(op==='sub'){
-        a = randInt(...r.sub); b = randInt(...r.sub); if(b>a) [a,b]=[b,a]; ans = a - b; txt = `${a} − ${b}`;
-      } else if(op==='mul'){
-        a = randInt(...r.mul); b = randInt(...r.mul); ans = a * b; txt = `${a} × ${b}`;
-      } else { // div, ensure integer result
+      if(op==='add'){ a = randInt(...r.add); b = randInt(...r.add); ans = a + b; txt = `${a} + ${b}`; }
+      else if(op==='sub'){ a = randInt(...r.sub); b = randInt(...r.sub); if(b>a) [a,b]=[b,a]; ans = a - b; txt = `${a} − ${b}`; }
+      else if(op==='mul'){ a = randInt(...r.mul); b = randInt(...r.mul); ans = a * b; txt = `${a} × ${b}`; }
+      else { // div integer
         b = randInt(...r.div); const k = randInt(1, (state.config.level==='hard'? 20 : 12)); a = b * k; ans = Math.trunc(a / b); txt = `${a} ÷ ${b}`;
       }
       return { a,b,op,ans,txt };
@@ -247,23 +218,18 @@
       $('#statQ').textContent = `${state.index}/${state.config.total}`;
       $('#statScore').textContent = fmt(state.score);
       $('#statStreak').textContent = fmt(state.streak);
-
       const key = bestKey();
       const best = Number(localStorage.getItem(key)||0);
       $('#statBest').textContent = fmt(best);
-
-      const pct = (state.index/state.config.total)*100;
-      $('#bar').style.width = pct + '%';
+      const pct = (state.index/state.config.total)*100; $('#bar').style.width = pct + '%';
     }
 
-    function bestKey(){
-      const {op, level, total} = state.config;
-      return `best:${op}:${level}:${total}`;
-    }
+    function bestKey(){ const {op, level, total} = state.config; return `best:${op}:${level}:${total}`; }
 
     function setFeedback(ok, msg){
       const el = $('#feedback');
-      el.textContent = msg || (ok? 'Correct!' : 'Wrong');
+      if (msg !== undefined) { el.textContent = msg; }
+      else { el.textContent = ok ? 'Correct!' : 'Wrong'; }
       el.className = 'feedback ' + (ok? 'ok' : 'bad');
     }
 
@@ -274,26 +240,18 @@
       input.value = '';
       input.disabled = false;
       input.focus();
+      input.classList.remove('glow-ok','glow-bad','shake','pulse');
+      $('#questionWrap').classList.remove('shake','pulse');
       setFeedback(true, '');
       updateStats();
     }
 
     function lockControls(lock){
-      $('#op').disabled = lock;
-      $('#level').disabled = lock;
-      $('#total').disabled = lock;
-      $('#start').disabled = lock;
-      $('#reset').disabled = !lock;
-      $('#submit').disabled = !lock;
-      $('#answer').disabled = !lock;
+      $('#op').disabled = lock; $('#level').disabled = lock; $('#total').disabled = lock; $('#start').disabled = lock; $('#reset').disabled = !lock; $('#submit').disabled = !lock; $('#answer').disabled = !lock;
     }
 
     function startGame(){
-      state.config = {
-        op: $('#op').value,
-        level: $('#level').value,
-        total: Number($('#total').value)
-      };
+      state.config = { op: $('#op').value, level: $('#level').value, total: Number($('#total').value) };
       state.index = 0; state.score=0; state.streak=0; state.mistakes=[]; state.ended=false;
       state.startTime = performance.now();
       $('#summary').style.display='none';
@@ -304,17 +262,10 @@
     function endGame(){
       state.ended = true;
       lockControls(false);
-      $('#submit').disabled = true;
-      $('#answer').disabled = true;
+      $('#submit').disabled = true; $('#answer').disabled = true;
       state.elapsed = Math.round((performance.now() - state.startTime)/1000);
-
-      // Save best
-      const key = bestKey();
-      const best = Number(localStorage.getItem(key)||0);
-      if(state.score > best){ localStorage.setItem(key, String(state.score)); }
+      const key = bestKey(); const best = Number(localStorage.getItem(key)||0); if(state.score > best){ localStorage.setItem(key, String(state.score)); }
       updateStats();
-
-      // Summary
       const acc = Math.round((state.score / state.config.total)*100);
       $('#sumTitle').textContent = acc===100? 'Flawless! 🏆' : acc>=70? 'Nice work! ✨' : 'Good effort! 💪';
       $('#sumInfo').textContent = `You finished ${state.config.total} question(s) on ${labelOf(state.config.level)} / ${labelOp(state.config.op)}.`;
@@ -322,88 +273,64 @@
       $('#sumAcc').textContent = `${acc}%`;
       $('#sumTime').textContent = `${state.elapsed}s`;
       $('#summary').style.display = 'block';
-
-      // If there are mistakes, append a quick list
-      const oldList = document.getElementById('mistakes');
-      if(oldList) oldList.remove();
+      const oldList = document.getElementById('mistakes'); if(oldList) oldList.remove();
       if(state.mistakes.length){
         const div = document.createElement('div');
-        div.id='mistakes';
-        div.style.marginTop = '10px';
-        div.innerHTML = `<div class="label" style="margin-bottom:6px;color:var(--muted)">Review mistakes:</div>` +
-          state.mistakes.map(m=>`<div class="pill" style="margin-top:6px">${m.txt} = <strong>${m.ans}</strong> (you: ${m.your})</div>`).join('');
+        div.id='mistakes'; div.style.marginTop = '10px';
+        div.innerHTML = `<div class="label" style="margin-bottom:6px;color:var(--muted)">Review mistakes:</div>` + state.mistakes.map(m=>`<div class="pill" style="margin-top:6px">${m.txt} = <strong>${m.ans}</strong> (you: ${m.your})</div>`).join('');
         document.getElementById('summary').appendChild(div);
       }
     }
 
-    function labelOf(level){
-      return level==='easy'?'Easy': level==='med'? 'Medium': 'Hard';
+    function labelOf(level){ return level==='easy'?'Easy': level==='med'? 'Medium': 'Hard'; }
+    function labelOp(op){ switch(op){ case 'add': return 'Addition'; case 'sub': return 'Subtraction'; case 'mul': return 'Multiplication'; case 'div': return 'Division'; default: return 'Mixed'; } }
+
+    // --- Sound effects (Web Audio, no external files) ---
+    function ensureAudio(){ if(state.audioCtx) return state.audioCtx; const C = new (window.AudioContext||window.webkitAudioContext)(); state.audioCtx = C; return C; }
+    function beep({freq=880, type='sine', dur=0.12, gain=0.08}){
+      const C = ensureAudio(); const t = C.currentTime; const o = C.createOscillator(); const g = C.createGain();
+      o.type = type; o.frequency.value = freq; g.gain.value = gain; o.connect(g).connect(C.destination); o.start(t); o.stop(t+dur);
     }
-    function labelOp(op){
-      switch(op){
-        case 'add': return 'Addition';
-        case 'sub': return 'Subtraction';
-        case 'mul': return 'Multiplication';
-        case 'div': return 'Division';
-        default: return 'Mixed';
-      }
+    function playCorrect(){ if(!$('#sfx').checked) return; // small up-chirp
+      beep({freq:620,type:'sine',dur:0.08,gain:0.05}); setTimeout(()=>beep({freq:840,type:'sine',dur:0.10,gain:0.06}),70);
+    }
+    function playWrong(){ if(!$('#sfx').checked) return; // quick buzzer
+      beep({freq:220,type:'square',dur:0.08,gain:0.06}); setTimeout(()=>beep({freq:180,type:'square',dur:0.10,gain:0.05}),70);
     }
 
     function submit(){
       if(state.ended) return;
       const raw = $('#answer').value.trim();
-      if(raw==='') { setFeedback(false, 'Enter an answer'); return; }
-      // Allow negative answers for subtraction edge, but integer only
+      if(raw==='') { setFeedback(false, 'Enter an answer'); $('#answer').classList.add('glow-bad','shake'); $('#questionWrap').classList.add('shake'); setTimeout(()=>{ $('#answer').classList.remove('shake'); $('#questionWrap').classList.remove('shake'); }, 500); return; }
       const guess = Number(raw);
       if(!Number.isFinite(guess)) { setFeedback(false, 'Please enter a number'); return; }
 
       const ok = (guess === state.current.ans);
       if(ok){
-        state.score++; state.streak++;
-        setFeedback(true, 'Correct!');
+        state.score++; state.streak++; setFeedback(true, 'Correct!'); playCorrect();
+        $('#answer').classList.remove('glow-bad'); $('#answer').classList.add('glow-ok'); $('#questionWrap').classList.add('pulse'); setTimeout(()=>{ $('#questionWrap').classList.remove('pulse'); }, 480);
       } else {
-        state.streak=0;
-        setFeedback(false, `Wrong → ${state.current.txt} = ${state.current.ans}`);
+        state.streak=0; setFeedback(false, `Wrong → ${state.current.txt} = ${state.current.ans}`); playWrong();
+        $('#answer').classList.remove('glow-ok'); $('#answer').classList.add('glow-bad'); $('#questionWrap').classList.add('shake'); setTimeout(()=>{ $('#questionWrap').classList.remove('shake'); }, 500);
         state.mistakes.push({ ...state.current, your: raw });
       }
-      state.index++;
-      updateStats();
-      if(state.index >= state.config.total){
-        endGame();
-      } else {
-        setTimeout(next, 350);
-      }
+      state.index++; updateStats();
+      if(state.index >= state.config.total){ endGame(); }
+      else { setTimeout(next, 350); }
     }
 
-    function next(){
-      showQuestion();
-    }
+    function next(){ showQuestion(); }
 
     // Events
     $('#start').addEventListener('click', startGame);
     $('#reset').addEventListener('click', ()=>{
-      state.ended = true; // stop
-      lockControls(false);
-      $('#qText').textContent = 'Press Start to begin';
-      $('#feedback').textContent='';
-      $('#bar').style.width='0%';
-      $('#statQ').textContent='–/–';
-      $('#statScore').textContent='0';
-      $('#statStreak').textContent='0';
-      $('#summary').style.display='none';
-      $('#answer').value='';
+      state.ended = true; lockControls(false); $('#qText').textContent = 'Press Start to begin'; $('#feedback').textContent=''; $('#bar').style.width='0%'; $('#statQ').textContent='–/–'; $('#statScore').textContent='0'; $('#statStreak').textContent='0'; $('#summary').style.display='none'; $('#answer').value='';
     });
     $('#submit').addEventListener('click', submit);
-    $('#answer').addEventListener('keydown', (e)=>{
-      if(e.key==='Enter') submit();
-    });
+    $('#answer').addEventListener('keydown', (e)=>{ if(e.key==='Enter') submit(); });
 
     // Initialize best score display
     updateStats();
-
-    // Accessibility: keep focus outline visible for keyboard users only
-    let hadKeyboard = false;
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Tab') { hadKeyboard=true; document.body.classList.add('kbd'); }});
   </script>
 </body>
 </html>
